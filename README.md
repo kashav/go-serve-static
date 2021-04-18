@@ -5,7 +5,7 @@ I wanted to see old versions of my github.io sites, but didn't want to type `git
 Should work out of the box with any build command that outputs into a single directory with an `index.html` file.
 
 ```sh
-$ echo <<EOF > config.yaml
+$ cat <<EOF > config.yaml
 - id: kshvmdn.com
   repo: git@github.com:kshvmdn/kshvmdn.github.io.git
   build: jekyll build
