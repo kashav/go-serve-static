@@ -1,0 +1,8 @@
+- id: kashav.ca
+  repo: git@github.com:kashav/kashav.github.io.git
+  build: jekyll build
+  serve: _site
+- id: kshvmdn.com
+  repo: git@github.com:kshvmdn/kshvmdn.github.io.git
+  build: jekyll build
+  serve: _site
