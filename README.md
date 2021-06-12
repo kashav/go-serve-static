@@ -1,9 +1,3 @@
-### foo
-
-I wanted to see old versions of my github.io sites, but didn't want to type `git checkout` and `jekyll build` 18 times, so I made this instead.
-
-Should work out of the box with any build command that outputs into a single directory with an `index.html` file.
-
 ```sh
 $ cat <<EOF > config.yaml
 - id: kshvmdn.com
