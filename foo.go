@@ -8,10 +8,11 @@ const (
 )
 
 type Config struct {
-	ID    string
-	Repo  string
-	Build string
-	Serve string
+	ID                string
+	Repo              string
+	Build             string
+	Serve             string
+	SparseCheckoutDir string `yaml:"sparse_directory"`
 }
 
 func (c *Config) Check() error {

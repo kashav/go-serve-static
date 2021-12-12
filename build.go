@@ -1,11 +1,13 @@
 package foo
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
 	"strings"
 )
@@ -20,16 +22,55 @@ type Builder struct {
 func NewBuilder(c *Config) *Builder {
 	var b Builder
 	b.c = c
-	// Maybe support taking a directory and filling out this map from that? Will
-	// need to walk all checkouts in the directory and grab `git rev-parse HEAD`
-	// for each.
 	b.checkouts = make(map[string]string)
 	return &b
 }
 
 func (b Builder) Repo() string { return b.c.Repo }
 
+func (b *Builder) InitializeFromSparse() (err error) {
+	log.Printf("filling in builder from sparse checkout: %s", b.c.SparseCheckoutDir)
+
+	b.sparse = b.c.SparseCheckoutDir
+
+	var sparse string
+	b.root, sparse = path.Split(b.sparse)
+
+	subdirs, err := ioutil.ReadDir(b.root)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, dir := range subdirs {
+		if dir.Name() == sparse {
+			continue
+		}
+
+		fullpath := path.Join(b.root, dir.Name())
+
+		var outb bytes.Buffer
+		cmd := exec.Command("git", "rev-parse", "HEAD")
+		cmd.Dir = fullpath
+		cmd.Stdout = &outb
+		if Debug {
+			cmd.Stderr = os.Stderr
+		}
+
+		if cmd.Run() == nil {
+			rev := strings.TrimSuffix(outb.String(), "\n")
+			log.Printf("found checkout %s at path %s", rev, fullpath)
+			b.checkouts[rev] = fullpath
+		}
+	}
+
+	return nil
+}
+
 func (b *Builder) Initialize() (err error) {
+	if b.c.SparseCheckoutDir != "" {
+		return b.InitializeFromSparse()
+	}
+
 	if b.root, err = ioutil.TempDir(os.TempDir(), b.c.ID); err != nil {
 		return err
 	}
