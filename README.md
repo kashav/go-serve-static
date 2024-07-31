@@ -5,7 +5,7 @@ $ cat sample-config.yaml
   build: jekyll build
   serve: _site
   ...
-$ go build -o serve-static cmd/foo/main.go
+$ go build -o serve-static cmd/serve-static/main.go
 $ ./serve-static sample-config.yaml
 ...
 $ xdg-open "http://localhost:8080/?id=kshvmdn.com&rev=ed098544062a80ef2d8b03ca52f43e43194abb0a"
