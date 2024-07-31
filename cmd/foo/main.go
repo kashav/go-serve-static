@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/kashav/foo"
+	"github.com/kashav/serve_static"
 	"gopkg.in/yaml.v2"
 )
 
@@ -19,21 +19,21 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	var configs []*foo.Config
+	var configs []*serve_static.Config
 	if err = yaml.Unmarshal(b, &configs); err != nil {
 		log.Fatal(err.Error())
 	}
 
-	builders := make(map[string]*foo.Builder)
+	builders := make(map[string]*serve_static.Builder)
 	for _, c := range configs {
 		if err = c.Check(); err != nil {
 			log.Fatal(err.Error())
 		}
-		builders[c.ID] = foo.NewBuilder(c)
+		builders[c.ID] = serve_static.NewBuilder(c)
 		if err = builders[c.ID].Initialize(); err != nil {
 			log.Fatal(err.Error())
 		}
 	}
 
-	foo.NewRunner(builders).ListenAndServe()
+	serve_static.NewRunner(builders).ListenAndServe()
 }

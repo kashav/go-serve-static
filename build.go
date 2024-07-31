@@ -1,4 +1,4 @@
-package foo
+package serve_static
 
 import (
 	"bytes"

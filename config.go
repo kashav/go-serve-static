@@ -1,9 +1,9 @@
-package foo
+package serve_static
 
 import "errors"
 
 const (
-	Debug bool = false
+	Debug bool = true
 	Port  int  = 8080
 )
 

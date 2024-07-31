@@ -1,0 +1,4 @@
+- id: kshvmdn.com
+  repo: git@github.com:kshvmdn/kshvmdn.github.io.git
+  build: jekyll build -vv
+  serve: _site

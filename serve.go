@@ -1,4 +1,4 @@
-package foo
+package serve_static
 
 import (
 	"fmt"
@@ -12,7 +12,9 @@ type Runner struct {
 	builders map[string]*Builder
 }
 
-func NewRunner(bs map[string]*Builder) *Runner { return &Runner{bs} }
+func NewRunner(bs map[string]*Builder) *Runner {
+	return &Runner{bs}
+}
 
 func (rr Runner) query(r *http.Request, param string) string {
 	v := r.URL.Query().Get(param)
